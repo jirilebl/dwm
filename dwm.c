@@ -880,8 +880,8 @@ drawbar(Monitor *m)
 	x = 0;
 	for (i = 0; i < LENGTH(tags); i++) {
 		w = TEXTW(tags[i]);
-		//drw_text(drw, x, 0, w, bh, lrpad / 2, tags[i], urg & 1 << i);
-		//drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]);
+		/* original:
+		 * drw_setscheme(drw, scheme[m->tagset[m->seltags] & 1 << i ? SchemeSel : SchemeNorm]); */
 		if (m->tagset[m->seltags] & 1 << i) {
 			drw_setscheme(drw, scheme[SchemeSel]);
 		} else if (urg & 1 << i) {
@@ -893,7 +893,7 @@ drawbar(Monitor *m)
 		if (occ & 1 << i)
 			drw_rect(drw, x + boxs, boxs, boxw, boxw,
 				m == selmon && selmon->sel && selmon->sel->tags & 1 << i,
-				0); //urg & 1 << i);
+				0); /* original: urg & 1 << i */
 		x += w;
 	}
 	w = TEXTW(m->ltsymbol);
