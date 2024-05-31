@@ -1,0 +1,2 @@
+#!/bin/sh
+exec st -c floatterm -g 160x47 -e zsh -c 'select loc in Stillwater Livingston Prague "San Diego" Read Default ; do case $loc in Stillwater) curl "wttr.in/SWO?m" ; break;; Livingston) curl "wttr.in/KLVM?m" ; break;; Prague) curl "wttr.in/Prague?m" ; break;; "San Diego") curl "wttr.in/San_Diego?m" ; break;; Read) read foo ; curl "wttr.in/$foo?m" ; break ;; Default) curl "wttr.in/?m"; break ;; esac ; done ; read foo'

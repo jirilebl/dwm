@@ -1,0 +1,2 @@
+#!/bin/sh
+system76-power profile battery

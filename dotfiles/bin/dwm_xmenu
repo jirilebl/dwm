@@ -1,0 +1,6 @@
+#!/bin/sh
+cd ~/.screenlayout
+OUT=`ls -1 | dmenu -l 20`
+if test -x "$OUT" ; then
+	exec "./$OUT"
+fi

@@ -1,0 +1,2 @@
+#!/bin/sh
+pactl set-source-port 0 analog-input-headset-mic
