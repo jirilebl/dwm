@@ -1,0 +1,34 @@
+diff --git a/dwm.c b/dwm.c
+index 97fe8b0..25c2788 100644
+--- a/dwm.c
++++ b/dwm.c
+@@ -236,6 +236,7 @@ static void seturgent(Client *c, int urg);
+ static void shiftview(const Arg *arg);
+ static void shifttag(const Arg *arg);
+ static void showhide(Client *c);
++static void sigterm(int unused);
+ static void spawn(const Arg *arg);
+ static Monitor *systraytomon(Monitor *m);
+ static void tag(const Arg *arg);
+@@ -1850,6 +1851,8 @@ setup(void)
+ 	/* clean up any zombies (inherited from .xinitrc etc) immediately */
+ 	while (waitpid(-1, NULL, WNOHANG) > 0);
+ 
++	signal(SIGTERM, sigterm);
++
+ 	/* init screen */
+ 	screen = DefaultScreen(dpy);
+ 	sw = DisplayWidth(dpy, screen);
+@@ -1950,6 +1953,12 @@ showhide(Client *c)
+ 	}
+ }
+ 
++void
++sigterm(int unused)
++{
++	quit(NULL);
++}
++
+ void
+ spawn(const Arg *arg)
+ {
