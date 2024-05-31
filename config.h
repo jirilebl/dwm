@@ -123,7 +123,7 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_7,                      6)
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
-	{ MODKEY|ShiftMask,             XK_End,    quit,           {0} },
+	/*{ MODKEY|ShiftMask,             XK_End,    quit,           {0} },*/
 	{ MODKEY,                       XK_BackSpace, spawn,       {.v = my_menu } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = my_xmenu } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = my_rofi } },
