@@ -67,9 +67,9 @@ static const struct arg args[] = {
 	/* function format          argument */
 	    { battery_perc, "%s%%", "BAT0"   },
     { battery_state, "%s | ", "BAT0" },
-    { wifi_essid, "%s ", "wlp0s20f3"    },
+    { wifi_essid, "%.25s ", "wlp0s20f3"    },
     { wifi_perc, "%s%% | ", "wlp0s20f3"    },
     /*{ ipv4, "%s | ", "wlp0s20f3"        },*/
-    { run_command, "vol %s | ", "wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/^[^ ]* //'" },
+    { run_command, "vol %.15s | ", "wpctl get-volume @DEFAULT_AUDIO_SINK@ | sed 's/^[^ ]* //'" },
 	{ datetime, "%s |",       "%a %F %R" },
 };
