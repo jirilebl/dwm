@@ -1,6 +1,6 @@
 #!/bin/sh
 
-dex --autostart --environment dwm &
+dex --autostart --environment dwm
 
 # start battery warning
 ~/bin/i3-battery-popup -t 1m &
@@ -10,13 +10,13 @@ dex --autostart --environment dwm &
 xset dpms 600 s off
 xss-lock -l -- i3lock -f -c 285577 -e -n &
 
-ibus-daemon -rxR &
-
 slstatus &
 
 sxhkd &
 
 sleep 2
+
+ibus-daemon -r -x -R -d
 
 # compositor
 picom -b
