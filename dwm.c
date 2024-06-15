@@ -871,7 +871,10 @@ drawbar(Monitor *m)
 	if (m == selmon) { /* status is only drawn on selected monitor */
 		drw_setscheme(drw, scheme[SchemeNorm]);
 		tw = TEXTW(stext) - lrpad / 2 + 2; /* 2px extra right padding */
+		XSetErrorHandler(xerrordummy);
 		drw_text(drw, m->ww - tw - stw, 0, tw, bh, lrpad / 2 - 2, stext, 0);
+		XSync(dpy, False);
+		XSetErrorHandler(xerror);
 	}
 
 	resizebarwin(m);
@@ -906,7 +909,11 @@ drawbar(Monitor *m)
 	if ((w = m->ww - tw - stw - x) > bh) {
 		drw_setscheme(drw, scheme[m == selmon ? SchemeSel : SchemeNorm]);
 		if (m->sel) {
+			XSetErrorHandler(xerrordummy);
 			drw_text(drw, x, 0, w, bh, lrpad / 2, m->sel->name, 0);
+			XSync(dpy, False);
+			XSetErrorHandler(xerror);
+
 			if (m->sel->isfloating)
 				drw_rect(drw, x + boxs, boxs, boxw, boxw, m->sel->isfixed, 0);
 		} else {
