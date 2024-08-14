@@ -87,7 +87,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
 	{ MODKEY|ShiftMask,             XK_Return, spawn,          {.v = termcmd } },
 	{ MODKEY,                       XK_grave,  togglescratch,  {.v = scratchpadcmd } },
-	{ MODKEY|ShiftMask,             XK_b,      togglebar,      {0} },
+	{ MODKEY,                       XK_b,      togglebar,      {0} },
 	{ MODKEY,                       XK_j,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
@@ -132,7 +132,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_BackSpace, spawn,       {.v = my_menu } },
 	{ MODKEY,                       XK_x,      spawn,          {.v = my_xmenu } },
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = my_rofi } },
-	{ MODKEY,                       XK_b,      spawn,          {.v = my_browser } },
+	{ MODKEY|ShiftMask,             XK_b,      spawn,          {.v = my_browser } },
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
 };
 
