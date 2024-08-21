@@ -18,11 +18,14 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char col_urgborder[]   = "#ff0000";
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan  },
-	[SchemeUrg]  = { col_gray4, col_cyan,  col_urgborder  },
+static const char col_urgmarkborder[]   = "#ffff00";
+static const char normmarkcolor[]   = "#775500";	/*border color for marked client*/
+static const char selmarkcolor[]    = "#775577";	/*border color for marked client on focus*/
+static const char *colors[][4]      = {
+	/*               fg         bg         border     mark   */
+	[SchemeNorm] = { col_gray3, col_gray1, col_gray2, normmarkcolor },
+	[SchemeSel]  = { col_gray4, col_cyan,  col_cyan,  selmarkcolor  },
+	[SchemeUrg]  = { col_gray4, col_cyan,  col_urgborder, col_urgmarkborder  },
 };
 
 /* tagging */
@@ -121,6 +124,9 @@ static const Key keys[] = {
 	TAGKEYS(                        XK_8,                      7)
 	TAGKEYS(                        XK_9,                      8)
 	{ MODKEY|ShiftMask,             XK_q,      quit,           {0} },
+    { MODKEY,                       XK_semicolon, togglemark,   {0} },
+    { MODKEY,                       XK_o,      swapfocus,      {0} },
+    { MODKEY,                       XK_u,      swapclient,     {0} },
 };
 
 /* button definitions */

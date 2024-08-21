@@ -231,6 +231,7 @@ static void setclientstate(Client *c, long state);
 static void setfocus(Client *c);
 static void setfullscreen(Client *c, int fullscreen);
 static void setlayout(const Arg *arg);
+static void setmark(Client *c);
 static void setmfact(const Arg *arg);
 static void setup(void);
 static void seturgent(Client *c, int urg);
@@ -239,12 +240,15 @@ static void shifttag(const Arg *arg);
 static void showhide(Client *c);
 static void sigterm(int unused);
 static void spawn(const Arg *arg);
+static void swapclient(const Arg *arg);
+static void swapfocus(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
 static void tag(const Arg *arg);
 static void tagmon(const Arg *arg);
 static void tile(Monitor *m);
 static void togglebar(const Arg *arg);
 static void togglefloating(const Arg *arg);
+static void togglemark(const Arg *arg);
 static void togglescratch(const Arg *arg);
 static void togglefullscr(const Arg *arg);
 static void toggletag(const Arg *arg);
@@ -310,6 +314,7 @@ static Display *dpy;
 static Drw *drw;
 static Monitor *mons, *selmon;
 static Window root, wmcheckwin;
+static Client *mark;
 
 /* configuration, allows nested code to access above variables */
 #include "config.h"
@@ -984,7 +989,10 @@ focus(Client *c)
 		detachstack(c);
 		attachstack(c);
 		grabbuttons(c, 1);
-		XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
+		if (c == mark)
+			XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColMark].pixel);
+		else
+			XSetWindowBorder(dpy, c->win, scheme[SchemeSel][ColBorder].pixel);
 		setfocus(c);
 	} else {
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
@@ -1276,7 +1284,10 @@ manage(Window w, XWindowAttributes *wa)
 
 	wc.border_width = c->bw;
 	XConfigureWindow(dpy, w, CWBorderWidth, &wc);
-	XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
+	if (c == mark)
+		XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColMark].pixel);
+	else
+		XSetWindowBorder(dpy, w, scheme[SchemeNorm][ColBorder].pixel);
 	configure(c); /* propagates border_width, if size doesn't change */
 	updatewindowtype(c);
 	updatesizehints(c);
@@ -1840,6 +1851,23 @@ setlayout(const Arg *arg)
 		drawbar(selmon);
 }
 
+void
+setmark(Client *c)
+{
+	if (c == mark)
+		return;
+	if (mark) {
+		XSetWindowBorder(dpy, mark->win, scheme[mark == selmon->sel
+				? SchemeSel : SchemeNorm][ColBorder].pixel);
+		mark = 0;
+	}
+	if (c) {
+		XSetWindowBorder(dpy, c->win, scheme[c == selmon->sel
+				? SchemeSel : SchemeNorm][ColMark].pixel);
+		mark = c;
+	}
+}
+
 /* arg > 1.0 will set mfact absolutely */
 void
 setmfact(const Arg *arg)
@@ -1914,7 +1942,7 @@ setup(void)
 	/* init appearance */
 	scheme = ecalloc(LENGTH(colors), sizeof(Clr *));
 	for (i = 0; i < LENGTH(colors); i++)
-		scheme[i] = drw_scm_create(drw, colors[i], 3);
+		scheme[i] = drw_scm_create(drw, colors[i], 4);
 	/* init system tray */
 	updatesystray();
 	/* init bars */
@@ -2002,6 +2030,77 @@ spawn(const Arg *arg)
 		die("dwm: execvp '%s' failed:", ((char **)arg->v)[0]);
 	}
 }
+
+void
+swapclient(const Arg *arg)
+{
+	Client *s, *m, t;
+
+	if (!mark || !selmon->sel || mark == selmon->sel
+	    || !selmon->lt[selmon->sellt]->arrange)
+		return;
+	s = selmon->sel;
+	m = mark;
+	t = *s;
+	strcpy(s->name, m->name);
+	s->win = m->win;
+	s->x = m->x;
+	s->y = m->y;
+	s->w = m->w;
+	s->h = m->h;
+
+	m->win = t.win;
+	strcpy(m->name, t.name);
+	m->x = t.x;
+	m->y = t.y;
+	m->w = t.w;
+	m->h = t.h;
+
+	selmon->sel = m;
+	mark = s;
+	focus(s);
+	setmark(m);
+
+	arrange(s->mon);
+	if (s->mon != m->mon) {
+		arrange(m->mon);
+	}
+	XWarpPointer(dpy, None, s->win, 0, 0, 0, 0, s->w/2, s->h/2);
+}
+
+void
+swapfocus(const Arg *arg)
+{
+	Client *t;
+
+	if (!selmon->sel || !mark || selmon->sel == mark)
+		return;
+	t = selmon->sel;
+	if (mark->mon != selmon) {
+		unfocus(selmon->sel, 0);
+		selmon = mark->mon;
+	}
+	if (ISVISIBLE(mark)) {
+		focus(mark);
+		restack(selmon);
+	} else {
+		selmon->seltags ^= 1;
+		selmon->tagset[selmon->seltags] = mark->tags;
+		focus(mark);
+		arrange(selmon);
+	}
+	XWarpPointer(dpy, None, mark->win, 0, 0, 0, 0, mark->w/2, mark->h/2);
+	setmark(t);
+}
+
+void
+togglemark(const Arg *arg)
+{
+	if (!selmon->sel)
+		return;
+	setmark(selmon->sel == mark ? 0 : selmon->sel);
+}
+
 
 void
 tag(const Arg *arg)
@@ -2195,7 +2294,10 @@ unfocus(Client *c, int setfocus)
 	if (!c)
 		return;
 	grabbuttons(c, 0);
-	XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColBorder].pixel);
+	if (c == mark)
+		XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColMark].pixel);
+	else
+		XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColBorder].pixel);
 	if (setfocus) {
 		XSetInputFocus(dpy, root, RevertToPointerRoot, CurrentTime);
 		XDeleteProperty(dpy, root, netatom[NetActiveWindow]);
@@ -2207,6 +2309,9 @@ unmanage(Client *c, int destroyed)
 {
 	Monitor *m = c->mon;
 	XWindowChanges wc;
+
+	if (c == mark)
+		setmark(0);
 
 	detach(c);
 	detachstack(c);
@@ -2760,6 +2865,7 @@ zoom(const Arg *arg)
 	if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
 		return;
 	pop(c);
+	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w/2, c->h/2);
 }
 
 int

@@ -18,11 +18,11 @@ static const char col_gray3[]       = "#bbbbbb";
 static const char col_gray4[]       = "#eeeeee";
 static const char col_cyan[]        = "#005577";
 static const char col_urgborder[]   = "#cc0000";
-static const char *colors[][3]      = {
-	/*               fg         bg         border   */
-	[SchemeNorm] = { col_gray3, col_gray1, col_gray2 },
-	[SchemeSel]  = { col_gray4, col_cyan,  "#ffa500"  },
-	[SchemeUrg]  = { col_gray4, col_urgborder,  col_urgborder  },
+static const char *colors[][4]      = {
+	/*               fg         bg         border   mark  */
+	[SchemeNorm] = { col_gray3, col_gray1, col_gray2, "#449944"  },
+	[SchemeSel]  = { col_gray4, col_cyan,  "#ffa500", "#00ff00"  },
+	[SchemeUrg]  = { col_gray4, col_urgborder,  col_urgborder, "#ff0000" },
 };
 
 /* tagging */
@@ -137,6 +137,9 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_p,      spawn,          {.v = my_rofi } },
 	{ MODKEY|ShiftMask,             XK_b,      spawn,          {.v = my_browser } },
 	{ MODKEY|ShiftMask,             XK_q,      killclient,     {0} },
+    { MODKEY,                       XK_semicolon, togglemark,   {0} },
+    { MODKEY,                       XK_o,      swapfocus,      {0} },
+    { MODKEY,                       XK_u,      swapclient,     {0} },
 };
 
 /* button definitions */
