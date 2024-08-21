@@ -105,6 +105,7 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,	   view,           {0} },
+	{ MODKEY,                       XK_s,	   swapfocus,      {0} },
 	{ Mod1Mask,                     XK_Tab,    spawn,          {.v = my_rofitab } },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
