@@ -2011,10 +2011,8 @@ swapfocus(const Arg *arg)
 	Client *c;
 	for(c = selmon->clients; c && c != prevclient; c = c->next) ;
 	if(c == prevclient && prevclient != NULL) {
-		c = prevclient;
 		focus(prevclient);
 		restack(prevclient->mon);
-		XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w/2, c->h/2);
 	}
 }
 
