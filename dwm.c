@@ -2065,7 +2065,6 @@ swapclient(const Arg *arg)
 	if (s->mon != m->mon) {
 		arrange(m->mon);
 	}
-	XWarpPointer(dpy, None, s->win, 0, 0, 0, 0, s->w/2, s->h/2);
 }
 
 void
