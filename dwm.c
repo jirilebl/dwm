@@ -2071,6 +2071,7 @@ void
 swapfocus(const Arg *arg)
 {
 	Client *t;
+	int i;
 
 	if (!selmon->sel || !mark || selmon->sel == mark)
 		return;
@@ -2085,6 +2086,23 @@ swapfocus(const Arg *arg)
 	} else {
 		selmon->seltags ^= 1;
 		selmon->tagset[selmon->seltags] = mark->tags;
+		selmon->pertag->prevtag = selmon->pertag->curtag;
+
+		if (mark->tags == ~0) {
+			selmon->pertag->curtag = 0;
+		} else {
+			for (i = 0; !(mark->tags & 1 << i); i++) ;
+			selmon->pertag->curtag = i + 1;
+		}
+		selmon->nmaster = selmon->pertag->nmasters[selmon->pertag->curtag];
+		selmon->mfact = selmon->pertag->mfacts[selmon->pertag->curtag];
+		selmon->sellt = selmon->pertag->sellts[selmon->pertag->curtag];
+		selmon->lt[selmon->sellt] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt];
+		selmon->lt[selmon->sellt^1] = selmon->pertag->ltidxs[selmon->pertag->curtag][selmon->sellt^1];
+
+		if (selmon->showbar != selmon->pertag->showbars[selmon->pertag->curtag])
+			togglebar(NULL);
+
 		focus(mark);
 		arrange(selmon);
 	}
