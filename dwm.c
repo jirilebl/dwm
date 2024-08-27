@@ -1671,8 +1671,10 @@ run(void)
 void
 runAutostart(void)
 {
-	system("cd ~/.dwm; ./autostart_blocking.sh");
-	system("cd ~/.dwm; ./autostart.sh &");
+	if(system("cd ~/.dwm; ./autostart_blocking.sh") != 0)
+		/*ignore errors*/;
+	if(system("cd ~/.dwm; ./autostart.sh &") != 0)
+		/*ignore errors*/;
 }
 
 void
