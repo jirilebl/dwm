@@ -2,6 +2,8 @@
 
 /* appearance */
 static const unsigned int borderpx  = 3;        /* border pixel of windows */
+static const unsigned int tabModKey = 0x40;
+static const unsigned int tabCycleKey = 0x17;
 static const unsigned int snap      = 32;       /* snap pixel */
 static const unsigned int systraypinning = 0;   /* 0: sloppy systray follows selected monitor, >0: pin systray to monitor X */
 static const unsigned int systrayonleft = 0;    /* 0: systray in the right corner, >0: systray on left of status text */
@@ -109,7 +111,6 @@ static const Key keys[] = {
 	{ MODKEY|ShiftMask,             XK_k,      movestack,      {.i = -1 } },
 	{ MODKEY,                       XK_Return, zoom,           {0} },
 	{ MODKEY,                       XK_Tab,	   view,           {0} },
-	{ Mod1Mask,                     XK_Tab,    focusstack,     {.i = +1 } },
 	{ Mod1Mask,                     XK_grave,  spawn,          {.v = my_rofitab } },
 	{ MODKEY|ShiftMask,             XK_c,      killclient,     {0} },
 	{ MODKEY,                       XK_t,      setlayout,      {.v = &layouts[0]} },
@@ -145,6 +146,8 @@ static const Key keys[] = {
     { MODKEY,                       XK_semicolon, togglemark,   {0} },
     { MODKEY,                       XK_o,      swapfocus,      {0} },
     { MODKEY,                       XK_u,      swapclient,     {0} },
+	{ MODKEY,                       XK_y,      winview,        {0} },
+	{ Mod1Mask,                     XK_Tab,    alttab,         {0} },
 };
 
 /* button definitions */
