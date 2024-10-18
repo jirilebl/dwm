@@ -39,7 +39,7 @@ static const Rule rules[] = {
 	{ "Gimp",     NULL,       NULL,       0,            1,           -1 },
 	/*{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },*/
 	{ "Pavucontrol",     NULL,       NULL,       0,            1,           -1 },
-	{ "zoom",     NULL,       NULL,       0,            1,           -1 },
+	/*{ "zoom",     NULL,       NULL,       0,            1,           -1 },*/
 	{ "floatterm",     NULL,       NULL,       0,            1,           -1 },
 };
 
@@ -90,6 +90,7 @@ static const char *my_calcmd[]  = { "stfloatcal.sh", NULL };
 static const char *my_wttrcmd[]  = { "stfloatweather.sh", NULL };
 
 #include "movestack.c"
+#include "unfloat.c"
 static const Key keys[] = {
 	/* modifier                     key        function        argument */
 	{ MODKEY,                       XK_p,      spawn,          {.v = dmenucmd } },
@@ -121,6 +122,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[5]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
+	{ MODKEY|ControlMask,           XK_space,  unfloatvisible, {0} },
 	{ MODKEY|ShiftMask,             XK_f,      togglefullscr,  {0} },
 	{ MODKEY,                       XK_0,      view,           {.ui = ~0 } },
 	{ MODKEY|ShiftMask,             XK_0,      tag,            {.ui = ~0 } },
