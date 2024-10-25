@@ -780,8 +780,6 @@ configurenotify(XEvent *e)
 			focus(NULL);
 			arrange(NULL);
 		}
-	} else {
-		arrange(selmon);
 	}
 }
 
