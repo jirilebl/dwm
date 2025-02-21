@@ -59,6 +59,8 @@ static const Layout layouts[] = {
 	{ "[D]",      deck },
 	{ "|||",      col },
 	{ "###",      gaplessgrid },
+	{ "TTT",      bstack },
+	{ "===",      bstackhoriz },
 };
 
 /* key definitions */
@@ -110,6 +112,8 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_r,      setlayout,      {.v = &layouts[3]} },
 	{ MODKEY,                       XK_c,      setlayout,      {.v = &layouts[4]} },
 	{ MODKEY,                       XK_g,      setlayout,      {.v = &layouts[5]} },
+	{ MODKEY,                       XK_w,      setlayout,      {.v = &layouts[6]} },
+	{ MODKEY,                       XK_e,      setlayout,      {.v = &layouts[7]} },
 	{ MODKEY,                       XK_space,  setlayout,      {0} },
 	{ MODKEY|ShiftMask,             XK_space,  togglefloating, {0} },
 	{ MODKEY|ControlMask,           XK_space,  unfloatvisible, {0} },
