@@ -1,4 +1,6 @@
 #!/bin/sh
+#
+# Edit to suit save to .xinitrc, also link ln -s .xinitrc .xsession
 
 dex --autostart --environment dwm
 
@@ -14,6 +16,8 @@ slstatus &
 
 sxhkd &
 
+# start this stuff delayed, first start dwm
+(
 sleep 2
 
 ibus-daemon -r -x -R -d
@@ -23,3 +27,6 @@ picom -b
 
 #set background
 feh --no-fehbg --bg-fill ~/Pictures/Backgrounds/Background-maui-vyhled.jpg
+) &
+
+exec ssh-agent dwm

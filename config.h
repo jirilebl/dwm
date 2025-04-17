@@ -56,11 +56,11 @@ static const Layout layouts[] = {
 	{ "[]=",      tile },    /* first entry is default */
 	{ "><>",      NULL },    /* no layout function means floating behavior */
 	{ "[M]",      monocle },
-	{ "[D]",      deck },
-	{ "|||",      col },
+	{ "[]D",      deck },
+	{ "||=",      col },
 	{ "###",      gaplessgrid },
-	{ "TTT",      bstack },
-	{ "===",      bstackhoriz },
+	{ "WWW",      bstack },
+	{ "EEE",      bstackhoriz },
 };
 
 /* key definitions */

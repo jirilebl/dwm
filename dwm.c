@@ -226,7 +226,6 @@ static void resizemouse(const Arg *arg);
 static void resizerequest(XEvent *e);
 static void restack(Monitor *m);
 static void run(void);
-static void runAutostart(void);
 static void scan(void);
 static int sendevent(Window w, Atom proto, int m, long d0, long d1, long d2, long d3, long d4);
 static void sendmon(Client *c, Monitor *m);
@@ -896,7 +895,7 @@ deck(Monitor *m) {
 
 	if(n > m->nmaster) {
 		mw = m->nmaster ? m->ww * m->mfact : 0;
-		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[D%d]", n - m->nmaster);
+		snprintf(m->ltsymbol, sizeof m->ltsymbol, "[]%d", n - m->nmaster);
 	}
 	else
 		mw = m->ww;
@@ -1778,15 +1777,6 @@ run(void)
 	while (running && !XNextEvent(dpy, &ev))
 		if (handler[ev.type])
 			handler[ev.type](&ev); /* call handler */
-}
-
-void
-runAutostart(void)
-{
-	if(system("cd ~/.dwm; ./autostart_blocking.sh") != 0)
-		/*ignore errors*/;
-	if(system("cd ~/.dwm; ./autostart.sh &") != 0)
-		/*ignore errors*/;
 }
 
 void
@@ -3081,7 +3071,6 @@ main(int argc, char *argv[])
 		die("pledge");
 #endif /* __OpenBSD__ */
 	scan();
-	runAutostart();
 	run();
 	cleanup();
 	XCloseDisplay(dpy);
