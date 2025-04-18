@@ -29,4 +29,9 @@ picom -b
 feh --no-fehbg --bg-fill ~/Pictures/Backgrounds/Background-maui-vyhled.jpg
 ) &
 
-exec ssh-agent dwm
+#exec ssh-agent dwm
+rm -f ~/.dwm/reallyquit
+while :; do
+	dwm
+	if [ -e ~/.dwm/reallyquit ]; then exit 0 ; fi
+done
