@@ -8,7 +8,7 @@ XF86AudioMute
 	pactl set-sink-mute @DEFAULT_SINK@ toggle && killall -SIGUSR1 slstatus
 
 XF86AudioMicMute
-	id pactl set-source-mute @DEFAULT_SOURCE@ toggle && killall -SIGUSR1 slstatus
+	pactl set-source-mute @DEFAULT_SOURCE@ toggle && killall -SIGUSR1 slstatus
 
 shift + XF86MonBrightnessUp
 	brightnessctl set "100%"
