@@ -14,7 +14,7 @@ shift + XF86MonBrightnessUp
 	brightnessctl set "100%"
 
 shift + XF86MonBrightnessDown
-	brightnessctl set 0
+	brightnessctl set 1
 
 XF86MonBrightnessUp
 	brightnessctl set "+5%"
