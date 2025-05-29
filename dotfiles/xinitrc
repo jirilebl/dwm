@@ -1,8 +1,25 @@
 #!/bin/sh
 #
 # Edit to suit save to .xinitrc, also link ln -s .xinitrc .xsession
+#
 
-dex --autostart --environment dwm
+xrdb -merge ~/.Xresources
+xkbset m
+xkbset exp "=mousekeys"
+xmodmap ~/.Xmodmap
+
+export XDG_CURRENT_DESKTOP=dwm
+export QT_AUTO_SCREEN_SCALE_FACTOR=1
+export QT_ENABLE_HIGHDPI_SCALING=1
+
+if [ -d "$xinitdir"/xinitrc.d ] ; then
+	for f in "$xinitdir/xinitrc.d"/?*.sh ; do
+		[ -x "$f" ] && . "$f"
+	done
+	unset f
+fi
+
+#dex --autostart --environment dwm
 
 # start battery warning
 ~/bin/i3-battery-popup -t 1m &
@@ -16,6 +33,10 @@ slstatus &
 
 sxhkd &
 
+nm-applet &
+
+~/bin/pcloud &
+
 # start this stuff delayed, first start dwm
 (
 sleep 2
@@ -23,15 +44,15 @@ sleep 2
 ibus-daemon -r -x -R -d
 
 # compositor
-picom -b
+picom --no-fading-openclose -b
 
 #set background
-feh --no-fehbg --bg-fill ~/Pictures/Backgrounds/Background-maui-vyhled.jpg
+~/.fehbg &
 ) &
 
 #exec ssh-agent dwm
 rm -f ~/.dwm/reallyquit
 while :; do
-	dwm
+	ssh-agent dwm
 	if [ -e ~/.dwm/reallyquit ]; then exit 0 ; fi
 done
