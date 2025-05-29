@@ -1,0 +1,6 @@
+#!/bin/sh
+xkbset m
+xkbset exp "=mousekeys"
+xmodmap ~/.Xmodmap
+
+/etc/X11/xinit/xinitrc.d/50-systemd-user.sh
