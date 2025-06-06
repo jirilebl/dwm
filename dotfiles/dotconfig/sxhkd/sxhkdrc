@@ -1,14 +1,14 @@
 XF86AudioRaiseVolume
-	pactl set-sink-volume @DEFAULT_SINK@ "+10%" && killall -SIGUSR1 slstatus
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ "5%+" && killall -SIGUSR1 slstatus
 
 XF86AudioLowerVolume
-	pactl set-sink-volume @DEFAULT_SINK@ "-10%" && killall -SIGUSR1 slstatus
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ "5%+" && killall -SIGUSR1 slstatus
 
 XF86AudioMute
-	pactl set-sink-mute @DEFAULT_SINK@ toggle && killall -SIGUSR1 slstatus
+	wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && killall -SIGUSR1 slstatus
 
 XF86AudioMicMute
-	pactl set-source-mute @DEFAULT_SOURCE@ toggle && killall -SIGUSR1 slstatus
+	wpctl set-mute @DEFAULT_AUDIO_SOURCE@ toggle && killall -SIGUSR1 slstatus
 
 shift + XF86MonBrightnessUp
 	brightnessctl set "100%"
