@@ -40,6 +40,7 @@ static const Rule rules[] = {
 	/*{ "Firefox",  NULL,       NULL,       1 << 8,       0,           -1 },*/
 	{ "Pavucontrol",     NULL,       NULL,       0,            1,           -1 },
 	{ "pavucontrol",     NULL,       NULL,       0,            1,           -1 },
+	{ "pwvucontrol",     NULL,       NULL,       0,            1,           -1 },
 	/*{ "zoom",     NULL,       NULL,       0,            1,           -1 },*/
 	{ "floatterm",     NULL,       NULL,       0,            1,           -1 },
 };

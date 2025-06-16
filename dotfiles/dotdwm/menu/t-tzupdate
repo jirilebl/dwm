@@ -1,0 +1,2 @@
+#!/bin/sh
+exec st -c floatterm -e sh -c 'tzupdate -p ; echo Enter to set, Ctrl-C to abort; read ; sudo tzupdate ; echo Press any key ; read'
