@@ -44,7 +44,7 @@ sleep 2
 ibus-daemon -r -x -R -d
 
 # compositor
-picom --no-fading-openclose -b
+picom --no-fading-openclose -b --backend xrender
 
 #set background
 ~/.fehbg &
