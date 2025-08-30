@@ -50,6 +50,7 @@ static const float mfact     = 0.55; /* factor of master area size [0.05..0.95] 
 static const int nmaster     = 1;    /* number of clients in master area */
 static const int resizehints = 1;    /* 1 means respect size hints in tiled resizals */
 static const int lockfullscreen = 1; /* 1 will force focus on the fullscreen window */
+static const int refreshrate = 120;  /* refresh rate (per second) for client move/resize */
 
 #include "gaplessgrid.c"
 
@@ -108,6 +109,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_k,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_z,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_a,      focusstack,     {.i = -1 } },
+	{ MODKEY,                       XK_slash,  focusmaster,    {0} },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_Prior,  shiftview,      {.i = -1 } },
