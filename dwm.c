@@ -1170,7 +1170,8 @@ focusnext(const Arg *arg) {
 		for (c = m->clients; c->next != last; c = c->next);
 	}
 	focus(c);
-	return;
+	if (c)
+		XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w/2, c->h/2);
 }
 
 void
