@@ -2,7 +2,7 @@ XF86AudioRaiseVolume
 	wpctl set-volume @DEFAULT_AUDIO_SINK@ "5%+" && killall -SIGUSR1 slstatus
 
 XF86AudioLowerVolume
-	wpctl set-volume @DEFAULT_AUDIO_SINK@ "5%+" && killall -SIGUSR1 slstatus
+	wpctl set-volume @DEFAULT_AUDIO_SINK@ "5%-" && killall -SIGUSR1 slstatus
 
 XF86AudioMute
 	wpctl set-mute @DEFAULT_AUDIO_SINK@ toggle && killall -SIGUSR1 slstatus
