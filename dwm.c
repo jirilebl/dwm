@@ -1126,12 +1126,10 @@ focusmaster(const Arg *arg)
 		Client *c = selmon->tagmarked[i];
 		if (c && ISVISIBLE(c)) {
 			focus(c);
-			XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w/2, c->h/2);
 		}
 	} else {
 		selmon->tagmarked[i] = selmon->sel;
 		focus(master);
-		XWarpPointer(dpy, None, master->win, 0, 0, 0, 0, master->w/2, master->h/2);
 	}
 }
 
@@ -1147,8 +1145,6 @@ focusmon(const Arg *arg)
 	unfocus(selmon->sel, 0);
 	selmon = m;
 	focus(NULL);
-	if (selmon->sel)
-		XWarpPointer(dpy, None, selmon->sel->win, 0, 0, 0, 0, selmon->sel->w/2, selmon->sel->h/2);
 }
 
 static void
@@ -1195,7 +1191,6 @@ focusstack(const Arg *arg)
 	if (c) {
 		focus(c);
 		restack(selmon);
-		XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w/2, c->h/2);
 	}
 }
 
@@ -1457,8 +1452,6 @@ manage(Window w, XWindowAttributes *wa)
 	c->mon->sel = c;
 	arrange(c->mon);
 	XMapWindow(dpy, c->win);
-	if (c && c->mon == selmon)
-		XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w/2, c->h/2);
 	focus(NULL);
 }
 
@@ -2258,7 +2251,6 @@ swapfocus(const Arg *arg)
 		focus(mark);
 		arrange(selmon);
 	}
-	XWarpPointer(dpy, None, mark->win, 0, 0, 0, 0, mark->w/2, mark->h/2);
 	setmark(t);
 }
 
@@ -2538,9 +2530,6 @@ unmanage(Client *c, int destroyed)
 	focus(NULL);
 	updateclientlist();
 	arrange(m);
-	if (m == selmon && m->sel)
-		XWarpPointer(dpy, None, m->sel->win, 0, 0, 0, 0,
-		             m->sel->w/2, m->sel->h/2);
 }
 
 void
@@ -3092,7 +3081,6 @@ zoom(const Arg *arg)
 	if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
 		return;
 	pop(c);
-	XWarpPointer(dpy, None, c->win, 0, 0, 0, 0, c->w/2, c->h/2);
 }
 
 int
