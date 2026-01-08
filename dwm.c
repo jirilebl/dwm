@@ -200,6 +200,7 @@ static void focusmon(const Arg *arg);
 static void focusnext(const Arg *arg);
 static void focusstack(const Arg *arg);
 static Atom getatomprop(Client *c, Atom prop);
+static Client *getclientundermouse(void);
 static int getrootptr(int *x, int *y);
 static long getstate(Window w);
 static unsigned int getsystraywidth();
@@ -244,6 +245,7 @@ static void shifttag(const Arg *arg);
 static void showhide(Client *c);
 static void sigterm(int unused);
 static void spawn(const Arg *arg);
+static void simpleswapfocus(const Arg *arg);
 static void swapclient(const Arg *arg);
 static void swapfocus(const Arg *arg);
 static Monitor *systraytomon(Monitor *m);
@@ -289,6 +291,7 @@ static void bstack(Monitor *m);
 static void bstackhoriz(Monitor *m);
 
 /* variables */
+static Client *prevclient = NULL;
 static Systray *systray = NULL;
 static const char broken[] = "broken";
 static char stext[256];
@@ -1226,6 +1229,20 @@ getsystraywidth()
 	if(showsystray)
 		for(i = systray->icons; i; w += i->w + systrayspacing, i = i->next) ;
 	return w ? w + systrayspacing : 1;
+}
+
+Client *
+getclientundermouse(void)
+{
+	int ret, di;
+	unsigned int dui;
+	Window child, dummy;
+
+	ret = XQueryPointer(dpy, root, &dummy, &child, &di, &di, &di, &di, &dui);
+	if (!ret)
+		return NULL;
+
+	return wintoclient(child);
 }
 
 int
@@ -2264,6 +2281,17 @@ togglemark(const Arg *arg)
 
 
 void
+simpleswapfocus(const Arg *arg)
+{
+	Client *c;
+	for(c = selmon->clients; c && c != prevclient; c = c->next) ;
+	if(c == prevclient) {
+		focus(prevclient);
+		restack(prevclient->mon);
+	}
+}
+
+void
 tag(const Arg *arg)
 {
 	if (selmon->sel && arg->ui & TAGMASK) {
@@ -2492,6 +2520,7 @@ unfocus(Client *c, int setfocus)
 {
 	if (!c)
 		return;
+	prevclient = c;
 	grabbuttons(c, 0);
 	if (c == mark)
 		XSetWindowBorder(dpy, c->win, scheme[SchemeNorm][ColMark].pixel);
@@ -2527,7 +2556,7 @@ unmanage(Client *c, int destroyed)
 		XUngrabServer(dpy);
 	}
 	free(c);
-	focus(NULL);
+	focus(getclientundermouse());
 	updateclientlist();
 	arrange(m);
 }
@@ -3075,10 +3104,11 @@ void
 zoom(const Arg *arg)
 {
 	Client *c = selmon->sel;
+	prevclient = nexttiled(selmon->clients);
 
 	if (!selmon->lt[selmon->sellt]->arrange || !c || c->isfloating)
 		return;
-	if (c == nexttiled(selmon->clients) && !(c = nexttiled(c->next)))
+	if (c == nexttiled(selmon->clients) && !(c = prevclient = nexttiled(c->next)))
 		return;
 	pop(c);
 }

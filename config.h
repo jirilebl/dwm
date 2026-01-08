@@ -110,6 +110,7 @@ static const Key keys[] = {
 	{ MODKEY,                       XK_z,      focusstack,     {.i = +1 } },
 	{ MODKEY,                       XK_a,      focusstack,     {.i = -1 } },
 	{ MODKEY,                       XK_slash,  focusmaster,    {0} },
+	{ MODKEY,                       XK_s,      simpleswapfocus,{0} },
 	{ MODKEY,                       XK_i,      incnmaster,     {.i = +1 } },
 	{ MODKEY,                       XK_d,      incnmaster,     {.i = -1 } },
 	{ MODKEY,                       XK_Prior,  shiftview,      {.i = -1 } },
