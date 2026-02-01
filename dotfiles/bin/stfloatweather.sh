@@ -1,6 +1,6 @@
 #!/bin/sh
 exec st -c floatterm -g 160x47 -e zsh -c '
-select loc in Stillwater Stillwater-v2 Livingston Livingston-v2 Prague Prague-v2 "San Diego" "San Diego-v2" Read Read-v2 Default Default-v2 Moon ; do
+select loc in Stillwater Stillwater-v2 Livingston Livingston-v2 Prague Prague-v2 "San Diego" "San Diego-v2" Read Read-v2 Default Default-v2 Moon weather ; do
 	case $loc in
 		Stillwater) curl "wttr.in/SWO?m" ; break ;;
 		Stillwater-v2) curl "v2.wttr.in/SWO?m" ; break ;;
@@ -15,6 +15,7 @@ select loc in Stillwater Stillwater-v2 Livingston Livingston-v2 Prague Prague-v2
 		Default) curl "wttr.in/?m"; break ;;
 		Default-v2) curl "v2.wttr.in/?m"; break ;;
 		Moon) curl "wttr.in/moon" ; break;;
+		weather) weather ; break;;
 	esac ;
 done ;
 read foo'
