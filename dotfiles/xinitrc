@@ -35,7 +35,7 @@ sxhkd &
 
 nm-applet &
 
-~/bin/pcloud &
+~/bin/pCloud.AppImage &
 
 # start this stuff delayed, first start dwm
 (
