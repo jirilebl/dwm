@@ -1198,7 +1198,7 @@ focusstack(const Arg *arg)
 Atom
 getatomprop(Client *c, Atom prop)
 {
-	int di;
+	int format;
 	unsigned long nitems, dl;
 	unsigned char *p = NULL;
 	Atom da, atom = None;
@@ -1210,8 +1210,8 @@ getatomprop(Client *c, Atom prop)
 		req = xatom[XembedInfo];
 
 	if (XGetWindowProperty(dpy, c->win, prop, 0L, sizeof atom, False, req,
-		&da, &di, &nitems, &dl, &p) == Success && p) {
-		if (nitems > 0)
+		&da, &format, &nitems, &dl, &p) == Success && p) {
+		if (nitems > 0 && format == 32)
 			atom = *(Atom *)p;
 		if (da == xatom[XembedInfo] && nitems == 2)
 			atom = ((Atom *)p)[1];
@@ -1264,10 +1264,10 @@ getstate(Window w)
 	Atom real;
 
 	if (XGetWindowProperty(dpy, w, wmatom[WMState], 0L, 2L, False, wmatom[WMState],
-		&real, &format, &n, &extra, (unsigned char **)&p) != Success)
+		&real, &format, &n, &extra, &p) != Success)
 		return -1;
-	if (n != 0)
-		result = *p;
+	if (n != 0 && format == 32)
+		result = *(long *)p;
 	XFree(p);
 	return result;
 }
