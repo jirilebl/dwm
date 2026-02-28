@@ -1214,7 +1214,7 @@ getatomprop(Client *c, Atom prop)
 		&da, &format, &nitems, &dl, &p) == Success && p) {
 		if (nitems > 0 && format == 32)
 			atom = *(Atom *)p;
-		if (da == xatom[XembedInfo] && nitems == 2)
+		if (da == xatom[XembedInfo] && nitems == 2 && format == 32)
 			atom = ((Atom *)p)[1];
 		XFree(p);
 	}
