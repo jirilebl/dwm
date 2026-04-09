@@ -27,7 +27,7 @@ fi
 # xss-lock grabs a logind suspend inhibit lock and will use i3lock to lock the
 # screen before suspend. Use loginctl lock-session to lock your screen.
 xset dpms 600 s off
-xss-lock -l -- i3lock -f -c 285577 -e -n &
+xss-lock -l -- ~/bin/mylock.sh &
 
 slstatus &
 
@@ -48,6 +48,9 @@ picom --no-fading-openclose -b --backend xrender
 
 #set background
 ~/.fehbg &
+
+~/.dwm/menu/f-fix-things &
+
 ) &
 
 #exec ssh-agent dwm
